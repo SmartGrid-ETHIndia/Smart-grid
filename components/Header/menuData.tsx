@@ -9,25 +9,25 @@ const menuData: Menu[] = [
   },
   {
     id: 2,
-    title: "About",
+    title: "Find Service Station",
     path: "/about",
     newTab: false,
   },
   {
     id: 33,
-    title: "Blog",
+    title: "Graphical Stats",
     path: "/blog",
     newTab: false,
   },
   {
     id: 3,
-    title: "Support",
+    title: "Get EV",
     path: "/contact",
     newTab: false,
   },
   {
     id: 4,
-    title: "Pages",
+    title: "Grid Load Prdictor ",
     newTab: false,
     submenu: [
       {
