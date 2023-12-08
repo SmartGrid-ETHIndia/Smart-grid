@@ -5,7 +5,7 @@ const Hero = () => {
     <>
       <section
         id="home"
-        className="dark:bg-gray-dark relative z-10 overflow-hidden bg-white pb-16 pt-[120px] md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
+        className="relative z-10 overflow-hidden bg-white pb-16 pt-[120px] dark:bg-gray-dark md:pb-[120px] md:pt-[150px] xl:pb-[160px] xl:pt-[180px] 2xl:pb-[200px] 2xl:pt-[210px]"
       >
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
@@ -13,15 +13,19 @@ const Hero = () => {
               <div
                 className="wow fadeInUp mx-auto max-w-[800px] text-center"
                 data-wow-delay=".2s"
+                style={{ marginLeft: "100px" }}
               >
                 <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
-                  Free and Open-Source Next.js Template for Startup & SaaS
+                  Out of Juice?
                 </h1>
-                <p className="dark:text-body-color-dark mb-12 text-base !leading-relaxed text-body-color sm:text-lg md:text-xl">
-                  Startup is free Next.js template for startups and SaaS
-                  business websites comes with all the essential pages,
-                  components, and sections you need to launch a complete
-                  business website, built-with Next 13.x and Tailwind CSS.
+                <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
+                  The availability of fossil fuels is limited, and their use is
+                  destroying our planet. Toxic emissions from petrol and diesel
+                  vehicles lead to long-term, adverse effects on public health.
+                  To reduce the impact of charging electric vehicles, India is
+                  ambitious to achieve about 40 percent cumulative electric
+                  power installed capacity from non-fossil fuel-based energy
+                  resources by the year 2030.
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
@@ -41,8 +45,18 @@ const Hero = () => {
             </div>
           </div>
         </div>
-        <div className="absolute right-0 top-0 z-[-1] opacity-30 lg:opacity-100">
-          <svg
+        <div className="absolute bottom-0 left-0 right-0 z-[-1] h-full w-full bg-[url(/images/video/shape.svg)] bg-cover bg-center bg-no-repeat"></div>
+
+        <div className="absolute right-0 top-0 z-[-1] opacity-40 lg:opacity-100">
+          <img
+            src="https://64.media.tumblr.com/40a4d0519a8b2c41945153db17e0790e/tumblr_mwivpwTa3P1qkgvd1o1_640.gif"
+            alt="Animated GIF"
+            className="mt-20 object-cover"
+            style={{ height: "400px", width: "400px", marginTop: "200px" }}
+          />
+
+          {/* svg for top */}
+          {/* <svg
             width="450"
             height="556"
             viewBox="0 0 450 556"
@@ -177,9 +191,12 @@ const Hero = () => {
                 <stop offset="1" stopColor="#4A6CF7" stopOpacity="0" />
               </linearGradient>
             </defs>
-          </svg>
+          </svg> */}
         </div>
-        <div className="absolute bottom-0 left-0 z-[-1] opacity-30 lg:opacity-100">
+        <div
+          className="absolute bottom-0 left-0 z-[-1] opacity-30 lg:opacity-100"
+          style={{ marginLeft: "1000px" }}
+        >
           <svg
             width="364"
             height="201"

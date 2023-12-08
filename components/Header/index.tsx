@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ThemeToggler from "./ThemeToggler";
@@ -7,13 +8,11 @@ import menuData from "./menuData";
 import detectEthereumProvider from "@metamask/detect-provider";
 
 const Header = () => {
-  // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  // Sticky Navbar
   const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
@@ -26,7 +25,6 @@ const Header = () => {
     window.addEventListener("scroll", handleStickyNavbar);
   });
 
-  // submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
   const handleSubmenu = (index) => {
     if (openIndex === index) {
@@ -56,7 +54,6 @@ const Header = () => {
           "MetaMask connected successfully! Selected account:",
           connectedAccount,
         );
-        // Additional actions after successful connection
       } catch (error) {
         console.error("Error connecting with MetaMask:", error.message);
       }
@@ -84,7 +81,7 @@ const Header = () => {
                 } `}
               >
                 {/* green grid */}
-                {/* <Image
+                <Image
                   src="/images/logo/logo-2.svg"
                   alt="logo"
                   width={140}
@@ -97,7 +94,7 @@ const Header = () => {
                   width={140}
                   height={30}
                   className="hidden w-full dark:block"
-                /> */}
+                />
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
