@@ -9,7 +9,7 @@ const Features = () => {
         <div className="container">
           <SectionTitle
             title="About us"
-            paragraph="Grid regulation for EV charging stations based on the charging patterns and electricity demands of the users, considering factors like time of the day and corresponding user demand.Using AI and the existing data available we will try to predict when and where there may be a surge in demand in the EV charging network, in turn increasing the load on the power grid. This early prediction will help us to pre-inform the authorities of the usage patterns and demands of the users and help reduce the stress produced by immediate demand on the power grid."
+            paragraph="Green Grid facilitates seamless communication between powerhouses and EV charging stations. Using decentralized networks, we provide users with real-time updates on station status, maintenance schedules, and nearby optimal charging options. Simplifying EV charging for a greener future."
             center
           />
 

@@ -3,11 +3,54 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
+import { PushAPI, CONSTANTS, NotificationOptions } from "@pushprotocol/restapi";
+import { ethers } from "ethers";
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 import detectEthereumProvider from "@metamask/detect-provider";
 
 const Header = () => {
+  const handleInfo = async () => {
+
+    // Check if user is connected to a web3 wallet
+    if (typeof window !== "undefined" && (window as any).ethereum) {
+      try {
+        const provider = new ethers.providers.Web3Provider(
+          (window as any).ethereum,
+        );
+        await provider.send("eth_requestAccounts", []);
+        const signer = provider.getSigner();
+
+        // Initialize PushAPI with the signer
+        const initializedUser = await PushAPI.initialize(signer, {
+          env: CONSTANTS.ENV.STAGING,
+        });
+
+        // Subscribe to the push channel
+        const pushChannelAddress = "0x2712940f11eC4Cb52F9BeD237B45De17c82Ff863";
+        await initializedUser.notification.subscribe(
+          `eip155:11155111:${pushChannelAddress}`,
+        );
+
+        console.log({ pushChannelAddress }, "this is channel address");
+        // Send a test notification
+        const options = {
+          notification: { title: "UnSupported Charging Stations", body: "<p>Closed Charging Stations:</p><ol><li><a href='https://www.google.com/maps?q=ICICI+Bank+sector+50+Noida'>ICICI Bank sector 50 Noida</a></li><li><a href='https://www.google.com/maps?q=Pitampura+Delhi'>Pitampura Delhi</a></li><li><a href='https://www.google.com/maps?q=Bank+of+India+Sector+78+Noida'>Bank of India Sector 78 Noida</a></li><li><a href='https://www.google.com/maps?q=Avenue+Park'>Avenue Park</a></li></ol>",
+        },
+        };
+
+        console.log({ options }, "this the notification how it is passed");
+
+        const broadcast = await initializedUser.channel.send(["*"], options);
+        console.log("Broadcast sent:", broadcast);
+      } catch (error) {
+        console.error("Error initializing PushAPI:", error);
+      }
+    } else {
+      console.error("Ethereum provider not found.");
+    }
+  };
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
@@ -60,6 +103,7 @@ const Header = () => {
     } else {
       alert("MetaMask extension not detected. Please install MetaMask.");
     }
+    handleInfo();
   };
 
   return (
@@ -129,7 +173,7 @@ const Header = () => {
                       : "invisible top-[120%] opacity-0"
                   }`}
                 >
-                  <ul className="block lg:flex lg:space-x-12">
+                  <ul className="block lg:flex lg:space-x-12 justify-center">
                     {menuData.map((menuItem, index) => (
                       <li key={index} className="group relative">
                         {menuItem.path ? (
