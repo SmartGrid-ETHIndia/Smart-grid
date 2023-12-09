@@ -1,0 +1,1 @@
+type ENV = 'staging' | 'prod';

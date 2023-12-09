@@ -10,7 +10,7 @@ const menuData: Menu[] = [
   {
     id: 2,
     title: "Find Service Station",
-    path: "/about",
+    path: "/stations",
     newTab: false,
   },
   {

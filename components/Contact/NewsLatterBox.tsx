@@ -1,9 +1,72 @@
 "use client";
 
 import { useTheme } from "next-themes";
+import { PushAPI, CONSTANTS,NotificationOptions } from '@pushprotocol/restapi';  
+import { ethers } from 'ethers';  
+import { useEffect, useState } from "react";
 
 const NewsLatterBox = () => {
   const { theme } = useTheme();
+  const [userAlice, setUserAlice] = useState(null);
+
+  useEffect(() => {
+    const initializeUserAlice = async () => {
+      const signer = ethers.Wallet.createRandom();
+      const user = await PushAPI.initialize(signer, { env: CONSTANTS.ENV.STAGING });
+      setUserAlice(user);
+    };
+
+    initializeUserAlice();
+  }, []);
+
+  useEffect(() => {
+    const subscribeToNotification = async () => {
+      if (userAlice) {
+        const pushChannelAddress = '0x2712940f11eC4Cb52F9BeD237B45De17c82Ff863';
+
+        await userAlice.notification.subscribe(`eip155:11155111:${pushChannelAddress}`);
+
+        // Additional logic after subscribing to notification
+      }
+    };
+
+    subscribeToNotification();
+  }, [userAlice]);
+
+  const options = {
+    notification: {
+      title: 'Your Title',
+      body: 'Your Notification Body',
+    },
+    // other optional properties...
+  };
+
+  const recipients = ['eip155:11155111:0x5C6ff6FB849926cD690Fd469b8792d01A9D99eD5'];
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log('Form submitted!');
+    alert("Form submitted successfully");
+
+    const apiResponse = await userAlice.channel.send(['*'], {
+      notification: {
+        title: 'Repeated Notification',
+        body: 'This notification is sent every 10 seconds',
+      },
+    });
+    console.log(apiResponse);
+    // if (!intervalId) {
+    //   intervalId = setInterval(async () => {
+    //     const apiResponse = await userAlice.channel.send(['*'], {   
+    //       notification: {  
+    //         title: 'Repeated Notification',  
+    //         body: 'This notification is sent every 10 seconds',  
+    //       }  
+    //     });
+    //     console.log(apiResponse); 
+    //   }, 10000);
+    // }
+  };
 
   return (
     <div
@@ -18,28 +81,31 @@ const NewsLatterBox = () => {
         massa quis lectus.
       </p>
       <div>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter your name"
-          className="border-stroke dark:text-body-color-dark dark:shadow-two mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          className="border-stroke dark:text-body-color-dark dark:shadow-two mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
-        />
-        <input
-          type="submit"
-          value="Subscribe"
-          className="shadow-submit dark:shadow-submit-dark mb-5 flex w-full cursor-pointer items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90"
-        />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            className="border-stroke dark:text-body-color-dark dark:shadow-two mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            className="border-stroke dark:text-body-color-dark dark:shadow-two mb-4 w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+          />
+          <button
+            type="submit"
+            className="shadow-submit dark:shadow-submit-dark mb-5 flex w-full cursor-pointer items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90"
+          >
+            Subscribe
+          </button>
+        </form>
+
         <p className="dark:text-body-color-dark text-center text-base leading-relaxed text-body-color">
           No spam guaranteed, So please don’t send any spam mail.
         </p>
       </div>
-
       <div>
         <span className="absolute left-2 top-7">
           <svg
