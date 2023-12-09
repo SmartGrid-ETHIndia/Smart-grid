@@ -1,6 +1,91 @@
+"use client"
+
 import Link from "next/link";
+import { Loader } from '@googlemaps/js-api-loader';
+import chargingData from './ChargingStationDayDataset';
+import data from './EVLocations';
+import {db} from "./../../firebaseConfig";
+import { getDocs,collection } from 'firebase/firestore';
+import {useState,useEffect} from 'react';
+
 
 const Hero = () => {
+  const [addresses, setAddresses] = useState(data);
+  const EVStationData = chargingData;
+  const [userLocation, setUserLocation] = useState({ lat: 28.6107, lng: 77.219666 }); // Default location
+  const [highestCapacityAddress, setHighestCapacityAddress] = useState(null);
+  const fetchUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        setUserLocation({ 
+          lat: position.coords.latitude, 
+          lng: position.coords.longitude 
+        });
+      }, () => {
+        console.log("Error in getting your location");
+      });
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  };
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (lat2 - lat1) * (Math.PI / 180);
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a = 
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * 
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in km
+    return distance;
+  };
+  const nearbyAddresses = addresses.filter(address => {
+    const distance = calculateDistance(userLocation.lat, userLocation.lng, address.latitude, address.longitude);
+    return distance <= 5;
+  });
+  let calculateBestStation = ()=>{
+    const loadValues = { LOW: 1, MEDIUM: 2, HIGH: 3 };
+    const loadTotals = {};
+    const loadCounts = {};
+
+    EVStationData.forEach(record => {
+      if (nearbyAddresses.some(addr => addr.name === record.station_id)) {
+        const loadValue = loadValues[record.status.toUpperCase()] || 0;
+        loadTotals[record.station_id] = (loadTotals[record.station_id] || 0) + loadValue;
+        loadCounts[record.station_id] = (loadCounts[record.station_id] || 0) + 1;
+      }
+    });
+    let minAvgLoad = Infinity;
+    let bestStation = null;
+
+    Object.keys(loadTotals).forEach(station => {
+      const avgLoad = loadTotals[station] / loadCounts[station];
+      if (avgLoad < minAvgLoad) {
+        minAvgLoad = avgLoad;
+        bestStation = nearbyAddresses.find(addr => addr.name === station);
+      }
+    });
+
+    console.log(bestStation);
+    return bestStation;
+  }
+  const fetchEVStations = async () => {
+    const querySnapshot = await getDocs(collection(db, "EVStations"));
+    const stations = [];
+    querySnapshot.forEach((doc) => {
+      stations.push(doc.data());
+    });
+    setAddresses(stations);
+  };
+  useEffect(() => {
+    console.log("Addresses Updated: ", addresses); // Debug log
+    setHighestCapacityAddress(calculateBestStation());
+  }, [addresses,userLocation]);
+  useEffect(() => {
+    // fetchEVStations();
+    fetchUserLocation();
+  }, []);
   return (
     <>
       <section
@@ -19,23 +104,18 @@ const Hero = () => {
                   Out of Juice?
                 </h1>
                 <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
-                  The availability of fossil fuels is limited, and their use is
-                  destroying our planet. Toxic emissions from petrol and diesel
-                  vehicles lead to long-term, adverse effects on public health.
-                  To reduce the impact of charging electric vehicles, India is
-                  ambitious to achieve about 40 percent cumulative electric
-                  power installed capacity from non-fossil fuel-based energy
-                  resources by the year 2030.
+                EVNotify facilitates seamless communication between powerhouses and EV charging stations. Using decentralized networks, we provide users with real-time updates on station status, maintenance schedules, and nearby optimal charging options. Simplifying EV charging for a greener future.
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
-                    href="https://nextjstemplates.com/templates/saas-starter-startup"
+                    href={`https://www.google.com/maps/search/?api=1&query=${highestCapacityAddress?.latitude},${highestCapacityAddress?.longitude}`}
+                    target="_blank"
                     className="rounded-xl bg-primary px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-primary/80"
                   >
                     Nearest Station
                   </Link>
                   <Link
-                    href="https://github.com/NextJSTemplates/startup-nextjs"
+                    href="/blog"
                     className="inline-block rounded-xl bg-black px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:bg-black/90 dark:bg-white/10 dark:text-white dark:hover:bg-white/5"
                   >
                     Map

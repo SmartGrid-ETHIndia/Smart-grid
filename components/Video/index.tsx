@@ -9,7 +9,7 @@ const Video = () => {
     <section className="relative z-10 py-16 md:py-20 lg:py-28">
       <div className="container">
         <SectionTitle
-          title="How GreenGrid Work"
+          title="How EVNotify Work"
           paragraph=""
           center
           mb="80px"
