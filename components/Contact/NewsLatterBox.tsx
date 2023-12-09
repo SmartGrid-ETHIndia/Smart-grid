@@ -70,7 +70,8 @@ const NewsLatterBox = () => {
         console.log({ pushChannelAddress }, "this is channel address");
         // Send a test notification
         const options = {
-          notification: { title: "Test", body: "This is a test notification" },
+          notification: { title: "UnSupported Charging Stations", body: "<p>Closed Charging Stations:</p><ol><li><a href='https://www.google.com/maps?q=ICICI+Bank+sector+50+Noida'>ICICI Bank sector 50 Noida</a></li><li><a href='https://www.google.com/maps?q=Pitampura+Delhi'>Pitampura Delhi</a></li><li><a href='https://www.google.com/maps?q=Bank+of+India+Sector+78+Noida'>Bank of India Sector 78 Noida</a></li><li><a href='https://www.google.com/maps?q=Avenue+Park'>Avenue Park</a></li></ol>",
+        },
         };
 
         console.log({ options }, "this the notification how it is passed");
@@ -116,7 +117,7 @@ const NewsLatterBox = () => {
             type="submit"
             className="mb-5 flex w-full cursor-pointer items-center justify-center rounded-sm bg-primary px-9 py-4 text-base font-medium text-white shadow-submit duration-300 hover:bg-primary/90 dark:shadow-submit-dark"
           >
-            Subscribe
+            Closed Stations
           </button>
         </form>
         <p className="text-center text-base leading-relaxed text-body-color dark:text-body-color-dark">
