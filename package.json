@@ -13,6 +13,7 @@
     "@metamask/detect-provider": "^2.0.0",
     "@pushprotocol/restapi": "^1.4.45",
     "@types/google.maps": "^3.54.10",
+    "axios": "^1.6.2",
     "bufferutil": "^4.0.8",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",

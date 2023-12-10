@@ -106,6 +106,7 @@ const MapComponent = () => {
             const map = new window.google.maps.Map(googlemap.current, {
                 center: userLocation,
                 zoom: 13.3,
+                mapTypeControl: false
             });
 
             const greenIcon = { url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' };
