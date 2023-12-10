@@ -257,14 +257,14 @@ const Header = () => {
               >
                 {/* green grid */}
                 <Image
-                  src="/images/logo/logo-2.svg"
+                  src="/images/logo/logo2.jpg"
                   alt="logo"
-                  width={40}
+                  width={140}
                   height={30}
                   className="w-full dark:hidden"
                 />
                 <Image
-                  src="/images/logo/logo.svg"
+                  src="/images/logo/logo1.png"
                   alt="logo"
                   width={140}
                   height={30}
