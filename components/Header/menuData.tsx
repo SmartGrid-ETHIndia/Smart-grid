@@ -18,6 +18,12 @@ const menuData: Menu[] = [
     title: "Push Notification↗️",
     path: "https://chromewebstore.google.com/detail/push-staging-protocol-alp/bjiennpmhdcandkpigcploafccldlakj",
     newTab: true,
+  },
+  {
+    id: 4,
+    title: "Opt In↗️",
+    path: "https://staging.push.org/channels",
+    newTab: true,
   }
 ];
 export default menuData;
