@@ -3,21 +3,137 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useTheme } from "next-themes";
 import { PushAPI, CONSTANTS, NotificationOptions } from "@pushprotocol/restapi";
 import { ethers } from "ethers";
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 import detectEthereumProvider from "@metamask/detect-provider";
+import {db} from "./../../firebaseConfig";
+import { getDocs,collection } from 'firebase/firestore';
+import chargingData from './ChargingStationDayDataset';
+import data from './EVLocations';
+interface Address {
+  address: string;
+  capacity: string;
+  city: string;
+  close: string;
+  cost_per_unit: any; // Replace 'any' with a more specific type if possible
+  country: string;
+  latitude: number;
+  longitude: number;
+  name: string;
+  open: string;
+  payment_modes: string;
+  postal_code: number;
+  staff: string;
+  station_type:string;
+  total:number;
+  type:string;
+  power_type: string;
+  zone: string;
+  time?: string; 
+}
+
 
 const Header = () => {
+  const [addresses, setAddresses] = useState<Address[]>(data);
+  const EVStationData = chargingData;
+  const [closedStation, setclosedStation] = useState([]);
+  const [maintainceStation, setMaintainceStation] = useState([]);
+  const [highTrafficStation, setHighTrafficStation] = useState([]);
+  const fetchEVStations = async () => {
+    const querySnapshot = await getDocs(collection(db, "EVStations"));
+    const stations = [];
+    querySnapshot.forEach((doc) => {
+      stations.push(doc.data());
+    });
+    setAddresses(stations);
+  };
+
+  const setData = () => {
+    // Ensure there are addresses to choose from
+    if (addresses.length > 0) {
+      console.log("hello")
+      // Select random stations for closedStation
+      const closedStationsCount = Math.floor(Math.random() * 2) + 2; // Randomly choose 2 or 3
+      const selectedClosedStations = selectRandomStations(closedStationsCount);
+      setclosedStation(selectedClosedStations);
+  
+      // Select random stations for maintainceStation
+      const maintainceStationsCount = Math.floor(Math.random() * 2) + 2; // Randomly choose 2 or 3
+      const selectedMaintainceStations = selectRandomStations(maintainceStationsCount, true);
+      setMaintainceStation(selectedMaintainceStations);
+    }
+  };
+  
+  const selectRandomStations = (count: number, withTime: boolean = false): Address[]  => {
+    const selectedStations: Address[] = [];
+  
+    while (selectedStations.length < count) {
+      const randomIndex = Math.floor(Math.random() * addresses.length);
+      const station = { ...addresses[randomIndex] };
+  
+      // Add random maintenance time if needed
+      if (withTime) {
+        const randomHour = Math.floor(Math.random() * 24);
+        const randomMinute = Math.floor(Math.random() * 60);
+        station.time = `${randomHour.toString().padStart(2, '0')}:${randomMinute.toString().padStart(2, '0')}`;
+      }
+  
+      // To avoid duplicates
+      if (!selectedStations.some(s => s.name === station.name)) {
+        selectedStations.push(station);
+      }
+    }
+  
+    return selectedStations;
+  };
+  const statusValues = {
+    LOW: 1,
+    MEDIUM: 2,
+    HIGH: 3,
+  };
+  
+  // Function to calculate the average status for a given station name
+  const getAverageStatus = (stationName) => {
+    const relevantData = EVStationData.filter(item => item.station_id === stationName);
+    const totalStatus = relevantData.reduce((total, currentItem) => {
+      return total + statusValues[currentItem.status];
+    }, 0);
+    return relevantData.length > 0 ? totalStatus / relevantData.length : 0;
+  };
+  
+  // Function to find high traffic stations
+  const setHighTrafficStations = () => {
+    const averageStatuses = addresses.map(station => {
+      return {
+        ...station,
+        averageStatus: getAverageStatus(station.name),
+      };
+    });
+  
+    // Sort the stations by average status and pick the top 2-3
+    const sortedStations = averageStatuses.sort((a, b) => b.averageStatus - a.averageStatus).slice(0, 3);
+    setHighTrafficStation(sortedStations);
+  };
+  useEffect(() => {
+    setData();
+    setHighTrafficStations();
+  }, []);
+  const createStationListHtml = (stations, includeTime = false) => {
+    return stations.map(station => {
+      const googleMapsLink = `https://www.google.com/maps?q=${station.latitude},${station.longitude}`;
+      return `<li><a href='${googleMapsLink}' target='_blank'>${station.name}</a>${includeTime ? ` - Maintenance Time: ${station.time}` : ''}</li>`;
+    }).join('');
+  };
   const handleInfo = async () => {
+    console.log(closedStation,maintainceStation,highTrafficStation,"kaise");
 
     // Check if user is connected to a web3 wallet
     if (typeof window !== "undefined" && (window as any).ethereum) {
       try {
         const provider = new ethers.providers.Web3Provider(
-          (window as any).ethereum,
+          (window as any).ethereum, 
         );
         await provider.send("eth_requestAccounts", []);
         const signer = provider.getSigner();
@@ -34,15 +150,30 @@ const Header = () => {
         );
 
         console.log({ pushChannelAddress }, "this is channel address");
+        const closedStationsHtml = createStationListHtml(closedStation);
+        const maintainceStationsHtml = createStationListHtml(maintainceStation, true);
+        const highTrafficStationsHtml = createStationListHtml(highTrafficStation);
+
+        console.log(closedStationsHtml,maintainceStationsHtml,highTrafficStationsHtml);
+
         // Send a test notification
-        const options = {
-          notification: { title: "UnSupported Charging Stations", body: "<p>Closed Charging Stations:</p><ol><li><a href='https://www.google.com/maps?q=ICICI+Bank+sector+50+Noida'>ICICI Bank sector 50 Noida</a></li><li><a href='https://www.google.com/maps?q=Pitampura+Delhi'>Pitampura Delhi</a></li><li><a href='https://www.google.com/maps?q=Bank+of+India+Sector+78+Noida'>Bank of India Sector 78 Noida</a></li><li><a href='https://www.google.com/maps?q=Avenue+Park'>Avenue Park</a></li></ol>",
-        },
+        const options1 = {
+          notification: { title: "Closed EV Stations", body:`<ul>${closedStationsHtml}</ul>`,},
+        };
+        const options2 = {
+          notification: { title: "EV Station under Maintance", body:`<ul>${maintainceStationsHtml}</ul>` ,},
+        };
+        const options3 = {
+          notification: { title: "High Traffic EV Station", body:`<ul>${highTrafficStationsHtml}</ul>`,},
         };
 
-        console.log({ options }, "this the notification how it is passed");
+        console.log({ options1 }, "this the notification how it is passed for option 1");
+        console.log({ options2 }, "this the notification how it is passed for option 2");
+        console.log({ options3 }, "this the notification how it is passed for option 3");
 
-        const broadcast = await initializedUser.channel.send(["*"], options);
+        let broadcast = await initializedUser.channel.send(["*"], options1);
+        broadcast = await initializedUser.channel.send(["*"], options2);
+        broadcast = await initializedUser.channel.send(["*"], options3);
         console.log("Broadcast sent:", broadcast);
       } catch (error) {
         console.error("Error initializing PushAPI:", error);
@@ -58,7 +189,7 @@ const Header = () => {
 
   const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
-    if (window.scrollY >= 80) {
+    if (window.scrollY > -1) {
       setSticky(true);
     } else {
       setSticky(false);
@@ -128,7 +259,7 @@ const Header = () => {
                 <Image
                   src="/images/logo/logo-2.svg"
                   alt="logo"
-                  width={140}
+                  width={40}
                   height={30}
                   className="w-full dark:hidden"
                 />

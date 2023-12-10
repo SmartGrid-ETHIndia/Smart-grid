@@ -9,15 +9,15 @@ const menuData: Menu[] = [
   },
   {
     id: 2,
-    title: "Nearest Station",
-    path: "/about",
-    newTab: false,
-  },
-  {
-    id: 33,
     title: "EV Map",
     path: "/blog",
     newTab: false,
+  },
+  {
+    id: 3,
+    title: "Push Notification↗️",
+    path: "https://chromewebstore.google.com/detail/push-staging-protocol-alp/bjiennpmhdcandkpigcploafccldlakj",
+    newTab: true,
   }
 ];
 export default menuData;
