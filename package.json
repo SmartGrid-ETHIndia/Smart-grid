@@ -13,6 +13,7 @@
     "@metamask/detect-provider": "^2.0.0",
     "@pushprotocol/restapi": "^1.4.45",
     "@types/google.maps": "^3.54.10",
+    "bufferutil": "^4.0.8",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
     "firebase": "^10.7.1",
@@ -20,7 +21,8 @@
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-modal-video": "^2.0.0"
+    "react-modal-video": "^2.0.0",
+    "utf-8-validate": "^5.0.10"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
