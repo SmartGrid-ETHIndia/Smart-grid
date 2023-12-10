@@ -44,7 +44,7 @@ const featuresData: Feature[] = [
     ),
     title: "Update of Stations",
     paragraph:
-      "Leveraging push protocol to keep users informed about closed EV stations, maintenance schedules, and high-traffic station updates.",
+      "Leveraging push protocol to keep users informed about closed EV stations, maintenance schedules, and high-traffic charging stations updates.",
   },
   {
     id: 1,

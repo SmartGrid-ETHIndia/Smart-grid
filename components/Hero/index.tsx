@@ -5,15 +5,78 @@ import { Loader } from '@googlemaps/js-api-loader';
 import chargingData from './ChargingStationDayDataset';
 import data from './EVLocations';
 import {db} from "./../../firebaseConfig";
-import { getDocs,collection } from 'firebase/firestore';
+import { getDocs, collection, doc, setDoc, getDoc } from 'firebase/firestore';
 import {useState,useEffect} from 'react';
-
+import axios from 'axios';
+import FormData from 'form-data';
 
 const Hero = () => {
   const [addresses, setAddresses] = useState(data);
   const EVStationData = chargingData;
   const [userLocation, setUserLocation] = useState({ lat: 28.6107, lng: 77.219666 }); // Default location
   const [highestCapacityAddress, setHighestCapacityAddress] = useState(null);
+  const addToIPFS = async (data) => {
+    const url = 'https://ipfs.infura.io:5001/api/v0/add';
+    const formData = new FormData();
+    formData.append("file", new Blob([JSON.stringify(data)], { type: 'application/json' }));
+
+    try {
+      const response = await axios.post(url, formData,{
+        headers: {
+          'Authorization': `HjK7fQGPOV+g5D4LnkqGLHvpZy3B3or39eqXj+nQKrRE6inZ8Zi1nA`
+        }
+      });
+      return response.data.Hash; // returns the IPFS hash
+    } catch (error) {
+      console.error('Error uploading file to IPFS:', error.message);
+      throw error;
+    }
+  };
+
+  // Function to store hash in Firebase
+  const storeHashInFirebase = async (hash) => {
+    try {
+      const docRef = doc(db, "IPFSHashes", "latestHash");
+      await setDoc(docRef, { hash });
+      console.log("Hash stored in Firebase:", hash);
+    } catch (error) {
+      console.error('Error storing hash in Firebase:', error.message);
+    }
+  };
+
+  // Function to check if hash exists in Firebase
+  const checkHashInFirebase = async () => {
+    try {
+      const docRef = doc(db, "IPFSHashes","latestHash");
+      const docSnap = await getDoc(docRef);
+      console.log(docSnap,"kaise karo")
+
+      if (docSnap.exists()) {
+        console.log("Existing hash found:", docSnap.data().hash);
+        return docSnap.data().hash;
+      } else {
+        console.log("No hash found, uploading data to IPFS.");
+        return null;
+      }
+    } catch (error) {
+      console.error('Error checking hash in Firebase:', error.message);
+      throw error;
+    }
+  };
+
+  // Function to handle data storage logic
+  const handleStoreData = async () => {
+    try {
+      const existingHash = await checkHashInFirebase();
+      if (!existingHash) {
+        const newHash = await addToIPFS(EVStationData);
+        await storeHashInFirebase(newHash);
+      }
+    } catch (error) {
+      console.error('Error in handling data storage:', error.message);
+    }
+  };
+
   const fetchUserLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -83,6 +146,7 @@ const Hero = () => {
     setHighestCapacityAddress(calculateBestStation());
   }, [addresses,userLocation]);
   useEffect(() => {
+    handleStoreData();
     // fetchEVStations();
     fetchUserLocation();
   }, []);
@@ -104,7 +168,7 @@ const Hero = () => {
                   Out of Juice?
                 </h1>
                 <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
-                EVNotify facilitates seamless communication between powerhouses and EV charging stations. Using decentralized networks, we provide users with real-time updates on station status, maintenance schedules, and nearby optimal charging options. Simplifying EV charging for a greener future.
+                EVNotify facilitates seamless communication between powerhouses and EV charging stations. Using decentralized networks, we provide users with real-time updates on Charging Stations status, maintenance schedules, and nearby optimal charging options. Simplifying EV charging for a greener future.
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                   <Link
