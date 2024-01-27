@@ -103,10 +103,28 @@ const Hero = () => {
     const distance = R * c; // Distance in km
     return distance;
   };
-  const nearbyAddresses = addresses.filter(address => {
-    const distance = calculateDistance(userLocation.lat, userLocation.lng, address.latitude, address.longitude);
-    return distance <= 5;
-  });
+  const searchNearbyAddresses = (radius) => {
+    return addresses.filter(address => {
+        const distance = calculateDistance(userLocation.lat, userLocation.lng, address.latitude, address.longitude);
+        return distance <= radius;
+    });
+};
+const searchNearbyAddressesWithIncreasedRadius = (radius, maxRadius) => {
+  if (radius > maxRadius) {
+      return null; // Stop searching if reached the maximum radius
+  }
+
+  const nearbyAddresses = searchNearbyAddresses(radius);
+  if (nearbyAddresses.length === 0) {
+      // If no addresses found in the current radius, try with increased radius
+      return searchNearbyAddressesWithIncreasedRadius(radius * 2, maxRadius);
+  } else {
+      return nearbyAddresses;
+  }
+};
+
+// Use the recursive function to search for addresses with increasing radii
+const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 20);
   let calculateBestStation = ()=>{
     const loadValues = { LOW: 1, MEDIUM: 2, HIGH: 3 };
     const loadTotals = {};
@@ -144,7 +162,7 @@ const Hero = () => {
   useEffect(() => {
     console.log("Addresses Updated: ", addresses); // Debug log
     setHighestCapacityAddress(calculateBestStation());
-  }, [addresses,userLocation]);
+  }, [addresses,userLocation,nearbyAddresses]);
   useEffect(() => {
     handleStoreData();
     // fetchEVStations();

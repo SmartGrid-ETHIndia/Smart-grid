@@ -40,10 +40,31 @@ const MapComponent = () => {
         return R * c;
     };
 
-    const nearbyAddresses = addresses.filter(address => {
-        const distance = calculateDistance(userLocation.lat, userLocation.lng, address.latitude, address.longitude);
-        return distance <= 5;
-    });
+    const searchNearbyStations = (radius) => {
+        return addresses.filter(address => {
+            const distance = calculateDistance(userLocation.lat, userLocation.lng, address.latitude, address.longitude);
+            return distance <= radius;
+        });
+    };
+    
+    let nearbyAddresses = searchNearbyStations(5);
+
+    const searchNearbyStationsWithIncreasedRadius = (radius, maxRadius) => {
+        if (radius > maxRadius) {
+            return null; // Stop searching if reached the maximum radius
+        }
+    
+        const nearbyStations = searchNearbyStations(radius);
+        if (nearbyStations.length === 0) {
+            // If no stations found in the current radius, try with increased radius
+            return searchNearbyStationsWithIncreasedRadius(radius * 2, maxRadius);
+        } else {
+            return nearbyStations;
+        }
+    };
+    
+    // Use the recursive function to search for stations with increasing radii
+    nearbyAddresses = searchNearbyStationsWithIncreasedRadius(10, 300); 
 
     const calculateBestStation = () => {
         const loadValues = { LOW: 1, MEDIUM: 2, HIGH: 3 };
