@@ -222,7 +222,10 @@ const Header = () => {
         });
 
         const connectedAccount = accounts[0];
-        setConnectedAddress(connectedAccount);
+
+        //slicing the connected address
+        const truncatedAddress = connectedAccount.slice(0, 4) + "..." + connectedAccount.slice(-2);
+        setConnectedAddress(truncatedAddress);
 
         console.log(
           "MetaMask connected successfully! Selected account:",
