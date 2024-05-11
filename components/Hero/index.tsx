@@ -9,6 +9,7 @@ import { getDocs, collection, doc, setDoc, getDoc } from 'firebase/firestore';
 import {useState,useEffect} from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
+import Image from "next/image";
 
 const Hero = () => {
   const [addresses, setAddresses] = useState(data);
@@ -178,14 +179,13 @@ const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 20);
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4">
               <div
-                className="wow fadeInUp mx-auto max-w-[800px] text-center"
+                className="wow fadeInUp max-w-[800px] text-center ml-0 md:ml-[100px]"
                 data-wow-delay=".2s"
-                style={{ marginLeft: "100px" }}
               >
-                <h1 className="mb-5 text-3xl font-bold leading-tight text-black dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
+                <h1 className="mb-5 font-bold leading-tight text-black dark:text-white text-4xl sm:leading-tight md:text-5xl md:leading-tight">
                   Out of Juice?
                 </h1>
-                <p className="mb-12 text-base !leading-relaxed text-body-color dark:text-body-color-dark sm:text-lg md:text-xl">
+                <p className="mb-12 text-base !leading-relaxed text-gray-dark dark:text-gray-light sm:text-lg md:text-xl">
                 EVNotify facilitates seamless communication between powerhouses and EV charging stations. Using decentralized networks, we provide users with real-time updates on Charging Stations status, maintenance schedules, and nearby optimal charging options. Simplifying EV charging for a greener future.
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
@@ -209,12 +209,13 @@ const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 20);
         </div>
         <div className="absolute bottom-0 left-0 right-0 z-[-1] h-full w-full bg-[url(/images/video/shape.svg)] bg-cover bg-center bg-no-repeat"></div>
 
-        <div className="absolute right-0 top-0 z-[-1] opacity-40 lg:opacity-100">
-          <img
+        <div className="absolute right-0 top-0 z-[-1] light:opacity-70 dark:opacity-30 md:dark:opacity-100 md:light:opacity-100">
+          <Image
             src="https://64.media.tumblr.com/40a4d0519a8b2c41945153db17e0790e/tumblr_mwivpwTa3P1qkgvd1o1_640.gif"
             alt="Animated GIF"
-            className="mt-20 object-cover"
-            style={{ height: "400px", width: "400px", marginTop: "200px" }}
+            className="object-cover mt-[200px]"
+            width={400}
+            height={400}
           />
         </div>
         <div
