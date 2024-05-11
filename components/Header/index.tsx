@@ -12,6 +12,8 @@ import {db} from "./../../firebaseConfig";
 import { getDocs,collection } from 'firebase/firestore';
 import chargingData from './ChargingStationDayDataset';
 import data from './EVLocations';
+
+
 interface Address {
   address: string;
   capacity: string;
@@ -249,9 +251,10 @@ const Header = () => {
             : "absolute bg-transparent"
         }`}
       >
-        <div className="container">
-          <div className="relative -mx-4 flex items-center justify-between">
-            <div className="w-60 max-w-full px-4 xl:mr-12">
+        <div className="container"  style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '20px' }}>
+          
+          <div className="relative -mx-4 flex items-center justify-between" >
+            <div className="w-60 max-w-full px-4 xl:mr-12 ">
               <Link
                 href="/"
                 className={`header-logo block w-full ${
@@ -276,12 +279,13 @@ const Header = () => {
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
+              
               <div>
                 <button
                   onClick={navbarToggleHandler}
                   id="navbarToggler"
                   aria-label="Mobile Menu"
-                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
+                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden transition duration-300 ease-in-out transform hover:scale-105"
                 >
                   <span
                     className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
@@ -361,7 +365,7 @@ const Header = () => {
                   </ul>
                 </nav>
               </div>
-              <div className="flex items-center justify-end pr-16 lg:pr-0">
+              <div className="flex items-center justify-end pr-16 lg:pr-0 space-x-4">
                 <div>
                   {connectedAddress ? (
                     <button className="ease-in-up hidden rounded-xl bg-primary px-8 py-3 text-base font-medium text-white shadow-btn transition duration-300 hover:bg-opacity-90 hover:shadow-btn-hover md:block md:px-9 lg:px-6 xl:px-9">
