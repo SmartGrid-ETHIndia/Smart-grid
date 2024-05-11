@@ -8,6 +8,11 @@ const nextConfig = {
         hostname: "cdn.sanity.io",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "64.media.tumblr.com",
+        port: "",
+      },
     ],
   },
 };
