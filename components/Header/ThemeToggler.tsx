@@ -23,7 +23,7 @@ const ThemeToggler = () => {
         
         transition: "background-color 0.3s ease", // Smooth transition
         boxShadow: "0px 2px 4px rgba(0, 0, 100, 0.6)",
-        marginLeft: "10px",
+
       }}
     >
       <svg
