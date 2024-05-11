@@ -52,6 +52,32 @@ const Header = () => {
     setAddresses(stations);
   };
 
+
+  const menuItemStyle = {
+    textDecoration: 'none', // Remove default underline
+    color: '#333', // Default color
+    position: 'relative', // Make position relative for the underline
+  }
+  const underlineStyle = {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%', // Full width of the title
+    height: '2px', // Height of the underline
+    backgroundColor: 'transparent', // Initial color of the underline
+    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+  }
+  
+  // Style for hover effect
+const underlineHoverStyle = {
+  backgroundColor: '#007bff', // Bright blue color for hover
+}
+
+const menuItemHoverStyle = {
+  boxShadow: '20px #007bff',
+  borderRadius: '10px' // Blue glow effect on hover
+}
+
   const setData = () => {
     // Ensure there are addresses to choose from
     if (addresses.length > 0) {
@@ -251,10 +277,10 @@ const Header = () => {
             : "absolute bg-transparent"
         }`}
       >
-        <div className="container"  style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '20px' }}>
+        <div className="container" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '20px' }}>
           
-          <div className="relative -mx-4 flex items-center justify-between" >
-            <div className="w-60 max-w-full px-4 xl:mr-12 ">
+        <div className="relative -mx-4 flex items-center justify-between">
+            <div className="w-60 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
                 className={`header-logo block w-full ${
@@ -279,13 +305,12 @@ const Header = () => {
               </Link>
             </div>
             <div className="flex w-full items-center justify-between px-4">
-              
               <div>
                 <button
                   onClick={navbarToggleHandler}
                   id="navbarToggler"
                   aria-label="Mobile Menu"
-                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden transition duration-300 ease-in-out transform hover:scale-105"
+                  className="absolute right-4 top-1/2 block translate-y-[-50%] rounded-lg px-3 py-[6px] ring-primary focus:ring-2 lg:hidden"
                 >
                   <span
                     className={`relative my-1.5 block h-0.5 w-[30px] bg-black transition-all duration-300 dark:bg-white ${
@@ -312,19 +337,18 @@ const Header = () => {
                   }`}
                 >
                   <ul className="block lg:flex lg:space-x-12 justify-center">
-                    {menuData.map((menuItem, index) => (
-                      <li key={index} className="group relative">
-                        {menuItem.path ? (
-                          <Link
-                            href={menuItem.path}
-                            className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
-                              usePathName === menuItem.path
-                                ? "text-primary dark:text-white"
-                                : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                            }`}
-                          >
-                            {menuItem.title}
-                          </Link>
+                  {menuData.map((menuItem, index) => (
+  <li key={index} className="group relative">
+    {menuItem.path ? (
+      <Link
+        href={menuItem.path}
+        className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6`}
+        style={{ ...menuItemStyle, ...(usePathName === menuItem.path && menuItemHoverStyle) }} // Apply menu item style
+      >
+        {menuItem.title}
+        <div style={{ ...underlineStyle, ...(usePathName === menuItem.path && underlineHoverStyle) }} /> {/* Apply underline style */}
+      </Link>
+      
                         ) : (
                           <>
                             <p
@@ -365,7 +389,7 @@ const Header = () => {
                   </ul>
                 </nav>
               </div>
-              <div className="flex items-center justify-end pr-16 lg:pr-0 space-x-4">
+              <div className="flex items-center justify-end pr-16 lg:pr-0">
                 <div>
                   {connectedAddress ? (
                     <button className="ease-in-up hidden rounded-xl bg-primary px-8 py-3 text-base font-medium text-white shadow-btn transition duration-300 hover:bg-opacity-90 hover:shadow-btn-hover md:block md:px-9 lg:px-6 xl:px-9">
