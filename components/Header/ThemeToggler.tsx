@@ -20,10 +20,10 @@ const ThemeToggler = () => {
         isHovered ? "hover:bg-gray-200" : ""
       }`}
       style={{
-        
+
         transition: "background-color 0.3s ease", // Smooth transition
         boxShadow: "0px 2px 4px rgba(0, 0, 100, 0.6)",
-
+        
       }}
     >
       <svg
