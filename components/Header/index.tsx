@@ -12,7 +12,7 @@ import {db} from "./../../firebaseConfig";
 import { getDocs,collection } from 'firebase/firestore';
 import chargingData from './ChargingStationDayDataset';
 import data from './EVLocations';
-
+import { CSSProperties } from 'react';
 
 interface Address {
   address: string;
@@ -53,12 +53,12 @@ const Header = () => {
   };
 
 
-  const menuItemStyle = {
+  const menuItemStyle: CSSProperties  = {
     textDecoration: 'none', // Remove default underline
     color: '#333', // Default color
     position: 'relative', // Make position relative for the underline
   }
-  const underlineStyle = {
+  const underlineStyle: CSSProperties  = {
     position: 'absolute',
     bottom: 0,
     left: 0,
@@ -69,11 +69,11 @@ const Header = () => {
   }
   
   // Style for hover effect
-const underlineHoverStyle = {
+const underlineHoverStyle: CSSProperties  = {
   backgroundColor: '#007bff', // Bright blue color for hover
 }
 
-const menuItemHoverStyle = {
+const menuItemHoverStyle: CSSProperties  = {
   boxShadow: '20px #007bff',
   borderRadius: '10px' // Blue glow effect on hover
 }
