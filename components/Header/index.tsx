@@ -12,6 +12,8 @@ import {db} from "./../../firebaseConfig";
 import { getDocs,collection } from 'firebase/firestore';
 import chargingData from './ChargingStationDayDataset';
 import data from './EVLocations';
+import { CSSProperties } from 'react';
+
 interface Address {
   address: string;
   capacity: string;
@@ -49,6 +51,32 @@ const Header = () => {
     });
     setAddresses(stations);
   };
+
+
+  const menuItemStyle: CSSProperties  = {
+    textDecoration: 'none', // Remove default underline
+    color: '#333', // Default color
+    position: 'relative', // Make position relative for the underline
+  }
+  const underlineStyle: CSSProperties  = {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '100%', // Full width of the title
+    height: '2px', // Height of the underline
+    backgroundColor: 'transparent', // Initial color of the underline
+    transition: 'background-color 0.3s ease', // Smooth transition for hover effect
+  }
+  
+  // Style for hover effect
+const underlineHoverStyle: CSSProperties  = {
+  backgroundColor: '#007bff', // Bright blue color for hover
+}
+
+const menuItemHoverStyle: CSSProperties  = {
+  boxShadow: '20px #007bff',
+  borderRadius: '10px' // Blue glow effect on hover
+}
 
   const setData = () => {
     // Ensure there are addresses to choose from
@@ -222,7 +250,10 @@ const Header = () => {
         });
 
         const connectedAccount = accounts[0];
-        setConnectedAddress(connectedAccount);
+
+        //slicing the connected address
+        const truncatedAddress = connectedAccount.slice(0, 4) + "..." + connectedAccount.slice(-2);
+        setConnectedAddress(truncatedAddress);
 
         console.log(
           "MetaMask connected successfully! Selected account:",
@@ -246,8 +277,9 @@ const Header = () => {
             : "absolute bg-transparent"
         }`}
       >
-        <div className="container">
-          <div className="relative -mx-4 flex items-center justify-between">
+        <div className="container" style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', borderRadius: '20px' }}>
+          
+        <div className="relative -mx-4 flex items-center justify-between">
             <div className="w-60 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
@@ -305,19 +337,18 @@ const Header = () => {
                   }`}
                 >
                   <ul className="block lg:flex lg:space-x-12 justify-center">
-                    {menuData.map((menuItem, index) => (
-                      <li key={index} className="group relative">
-                        {menuItem.path ? (
-                          <Link
-                            href={menuItem.path}
-                            className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
-                              usePathName === menuItem.path
-                                ? "text-primary dark:text-white"
-                                : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
-                            }`}
-                          >
-                            {menuItem.title}
-                          </Link>
+                  {menuData.map((menuItem, index) => (
+  <li key={index} className="group relative">
+    {menuItem.path ? (
+      <Link
+        href={menuItem.path}
+        className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6`}
+        style={{ ...menuItemStyle, ...(usePathName === menuItem.path && menuItemHoverStyle) }} // Apply menu item style
+      >
+        {menuItem.title}
+        <div style={{ ...underlineStyle, ...(usePathName === menuItem.path && underlineHoverStyle) }} /> {/* Apply underline style */}
+      </Link>
+      
                         ) : (
                           <>
                             <p
