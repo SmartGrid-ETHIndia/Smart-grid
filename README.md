@@ -70,7 +70,7 @@ To run EVNotify locally on your system, follow these steps:
   If your project uses environment variables, make sure to set them up. Typically, you would create a .env file in your project directory and define your environment variables there.
 
 4. Start the Application:
-   Once the dependencies are installed, you can start your Node.js application. If your package.json file has a start script defined, you can simply run:
+   Once the dependencies are installed, you can start your Next.js application. If your package.json file has a start script defined, you can simply run:
 
    ```bash
    npm run dev
