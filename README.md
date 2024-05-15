@@ -51,6 +51,33 @@ To get started with EVNotify, follow these steps:
 5. Explore the integrated map to find charging stations near you.
 6. Receive real-time updates on station status, maintenance schedules, and optimal charging options.
 
+## Install Locally on your system
+
+To run EVNotify locally on your system, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/SmartGrid-ETHIndia/Smart-grid
+   
+2. Install Dependencies:
+   Use npm (Node Package Manager) to install the project dependencies. In your project directory, run:
+
+   ```bash
+   npm install
+
+3. Environment Configuration: 
+  If your project uses environment variables, make sure to set them up. Typically, you would create a .env file in your project directory and define your environment variables there.
+
+4. Start the Application:
+   Once the dependencies are installed, you can start your Node.js application. If your package.json file has a start script defined, you can simply run:
+
+   ```bash
+   npm run dev
+
+5. Access the Application:
+   Once the development server is running, open your web browser and navigate to `http://localhost:3000` to view your Next.js application.
+
 ## License
 
 [MIT License](LICENSE)
