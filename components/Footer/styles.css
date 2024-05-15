@@ -1,0 +1,33 @@
+.link:hover {
+  text-decoration: underline;
+  margin-bottom: 5px;
+  color :rgb(90, 90, 206) ;
+}
+.vertical-line {
+  border-left: 1px solid #444;
+  height: 150px;
+  
+  width: 3px;
+  display: flex;
+}
+.same-line-container {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 70px;
+  margin-right: 0;
+  padding-right: 0;
+  align-content: flex-start;
+}
+
+.vertical-line {
+  border-left: 1px solid #ccc;
+  
+  margin: 0 10px;
+}
+p{
+  font-size: 120px;
+}
+.font-large {
+  font-size: 18px;
+}
+
