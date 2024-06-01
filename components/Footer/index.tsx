@@ -1,50 +1,53 @@
 import Image from "next/image";
 import Link from "next/link";
-import './styles.css'
+import './styles.css';
+
 const Footer = () => {
   return (
-    <>
-      <footer className="wow fadeInUp dark:bg-gray-dark relative z-10 bg-white pt-16 md:pt-20 lg:pt-24" data-wow-delay=".1s">
-        <div className="container">
-          <div className="-mx-4 flex flex-wrap">
-            <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
-              <div className="mb-8 max-w-[360px] lg:mb-10">
-                <Link href="/" className="mb-8 inline-block">
-                  <Image
-                    src="/images/logo/logo2.jpg"
-                    alt="logo"
-                    className="w-full dark:hidden"
-                    width={140}
-                    height={40}
-                  />
-                  <Image
-                    src="/images/logo/logo1.png"
-                    alt="logo"
-                    className="hidden w-full dark:block"
-                    width={140}
-                    height={30}
-                  />
-                </Link>
-                <p className="dark:text-body-color-dark mb-9 mt-0 text-base leading-relaxed text-body-color font-bold font-large ">
-                  Decentralized AI based solution for EVs
-                </p>
-                <div className="flex space-x-7">
-  <a
+    <footer className="wow fadeInUp dark:bg-gray-dark relative z-10 bg-white pt-16 md:pt-20 lg:pt-24" data-wow-delay=".1s">
+      <div className="container">
+        <div className="-mx-4 flex flex-wrap">
+          <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
+            <div className="mb-8 max-w-[360px] lg:mb-10">
+              <Link href="/" className="mb-8 inline-block">
+                <Image
+                  src="/images/logo/logo2.jpg"
+                  alt="logo"
+                  className="w-full dark:hidden"
+                  width={140}
+                  height={40}
+                />
+                <Image
+                  src="/images/logo/logo1.png"
+                  alt="logo"
+                  className="hidden w-full dark:block"
+                  width={140}
+                  height={30}
+                />
+              </Link>
+              <p className="dark:text-body-color-dark mb-9 mt-0 text-base leading-relaxed text-body-color font-bold font-large">
+                Decentralized AI based solution for EVs
+              </p>
+              <div className="flex space-x-7">
+              <a
     href="https://twitter.com/mayanksharmaa03"
     aria-label="Twitter"
     className="social-link transition-transform duration-300 hover:scale-150"
-  >
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 24 24"
-      className="fill-current text-primary dark:text-primary duration-300 hover:text-secondary dark:hover:text-secondary"
+>
+    <svg 
+        width="32"
+        height="32"
+        viewBox="0 0 224 224"
+        className="fill-current text-primary dark:text-primary duration-300 hover:text-secondary dark:hover:text-secondary"
     >
-      <path d="M19.633 7.997c.013.175.013.349.013.523 0 5.325-4.053 11.461-11.46 11.461-2.282 0-4.402-.661-6.186-1.809.324.037.636.05.973.05a8.07 8.07 0 0 0 5.001-1.721 4.036 4.036 0 0 1-3.767-2.793c.249.037.499.062.761.062.361 0 .724-.05 1.061-.137a4.027 4.027 0 0 1-3.23-3.953v-.05c.537.299 1.16.486 1.82.511a4.022 4.022 0 0 1-1.796-3.354c0-.748.199-1.434.548-2.032a11.457 11.457 0 0 0 8.306 4.215c-.062-.3-.098-.611-.098-.923a4.026 4.026 0 0 1 4.028-4.028c1.16 0 2.207.486 2.943 1.272a7.957 7.957 0 0 0 2.556-.973 4.02 4.02 0 0 1-1.771 2.22 8.073 8.073 0 0 0 2.319-.624 8.645 8.645 0 0 1-2.019 2.083z" />
+        <path d="M146 225H1V1h224v224h-79m18.391-59.491h9.428l-47.595-63.725 43.538-46.735c-6.14-1.462-10.298-.211-14.12 4.416-6.144 7.436-13.059 14.236-19.667 21.286-4.632 4.94-9.296 9.85-14.209 15.05-9.787-13.064-19.229-25.723-28.765-38.31-.922-1.215-2.417-2.801-3.676-2.828-10.59-.227-21.189-.13-32.57-.13l46.03 61.654-45.559 48.746c6.105 1.666 10.239.234 14.02-4.325 5.733-6.914 12.16-13.254 18.31-19.82 5.78-6.172 11.582-12.322 17.564-18.682 1.1 1.352 1.954 2.327 2.728 3.362 8.87 11.873 17.873 23.652 26.498 35.7 2.437 3.404 4.996 4.665 9.08 4.43 5.98-.346 11.994-.09 18.965-.09z"/>
+        <path fill="#FFFFFF" d="M163.906 165.509c-6.486 0-12.5-.257-18.48.088-4.084.236-6.643-1.025-9.08-4.429-8.625-12.048-17.628-23.827-26.498-35.7-.774-1.035-1.627-2.01-2.728-3.362-5.982 6.36-11.785 12.51-17.564 18.681-6.15 6.567-12.577 12.907-18.31 19.82-3.781 4.56-7.915 5.992-14.02 4.326l45.56-48.746-46.031-61.653c11.381 0 21.98-.098 32.57.129 1.259.027 2.754 1.613 3.676 2.828 9.536 12.587 18.978 25.246 28.765 38.31 4.913-5.2 9.577-10.11 14.209-15.05 6.608-7.05 13.523-13.85 19.666-21.286 3.823-4.627 7.98-5.878 14.121-4.416l-43.538 46.735 47.595 63.725h-9.913M77.028 69.445c21.138 28.212 42.259 56.437 63.46 84.6 1.2 1.594 2.957 3.624 4.648 3.826 4.494.536 9.094.182 13.641.182 0-.728.062-.92-.008-1.015-23.214-31.024-46.425-62.05-69.715-93.016-.763-1.014-2.31-1.942-3.54-2.01-4.4-.24-8.82-.094-14.035-.094 2.036 2.772 3.574 4.865 5.55 7.527z"/>
     </svg>
-  </a>
+</a>
 
-  <a
+
+
+ <a
     href="https://www.youtube.com/channel/UCZXDhOe6_Imp5ERSLDfaigg"
     aria-label="YouTube"
     className="social-link transition-transform duration-300 hover:scale-150"
@@ -122,7 +125,6 @@ const Footer = () => {
 
        
       </footer>
-    </>
   );
 };
 
