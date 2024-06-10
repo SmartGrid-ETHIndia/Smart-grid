@@ -12,8 +12,10 @@
 }
 .same-line-container {
   display: flex;
+  flex: 1 1 50%;
   align-items: flex-start;
-  column-gap: 70px;
+  justify-content: space-evenly;
+  /* column-gap: 70px; */
   margin-right: 0;
   padding-right: 0;
   align-content: flex-start;
@@ -30,4 +32,17 @@ p{
 .font-large {
   font-size: 18px;
 }
+
+.link{
+  font-size: 1em;
+}
+
+@media (max-width:400px) {
+  .link{
+    font-size: 0.8em;
+  }
+  
+}
+
+
 
