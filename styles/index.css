@@ -31,3 +31,6 @@
     @apply opacity-100;
   }
 }
+.mb-10.flex.h-\[70px\].w-\[70px\].items-center.justify-center.rounded-md.bg-primary.bg-opacity-10.text-primary:hover {
+  transform: scale(1.5);
+}
