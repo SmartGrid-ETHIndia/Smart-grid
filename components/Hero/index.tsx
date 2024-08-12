@@ -125,7 +125,7 @@ const searchNearbyAddressesWithIncreasedRadius = (radius, maxRadius) => {
 };
 
 // Use the recursive function to search for addresses with increasing radii
-const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 20);
+const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 2000);
   let calculateBestStation = ()=>{
     const loadValues = { LOW: 1, MEDIUM: 2, HIGH: 3 };
     const loadTotals = {};
