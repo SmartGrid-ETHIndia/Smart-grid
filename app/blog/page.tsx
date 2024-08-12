@@ -64,7 +64,7 @@ const MapComponent = () => {
     };
     
     // Use the recursive function to search for stations with increasing radii
-    nearbyAddresses = searchNearbyStationsWithIncreasedRadius(10, 300); 
+    nearbyAddresses = searchNearbyStationsWithIncreasedRadius(10, 3000); 
 
     const calculateBestStation = () => {
         const loadValues = { LOW: 1, MEDIUM: 2, HIGH: 3 };
