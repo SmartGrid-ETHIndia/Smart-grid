@@ -10,7 +10,7 @@ import {useState,useEffect} from 'react';
 import axios from 'axios';
 import FormData from 'form-data';
 import Image from "next/image";
-
+import '../../styles/mode.css'
 const Hero = () => {
   const [addresses, setAddresses] = useState(data);
   const EVStationData = chargingData;
@@ -215,6 +215,7 @@ const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 2000);
             alt="Animated GIF"
             className="object-cover mt-[200px]"
             width={400}
+            id="image"
             height={400}
           />
         </div>
@@ -253,7 +254,7 @@ const nearbyAddresses = searchNearbyAddressesWithIncreasedRadius(5, 2000);
               transform="rotate(-13.421 214.505 60.5054)"
               stroke="url(#paint4_linear_25:218)"
             />
-            <circle cx="220" cy="63" r="43" fill="url(#paint5_radial_25:218)" />
+            <circle cx="220" cy="63" r="43" fill="url(#paint5_radial_25:218)" id="circle" />
             <defs>
               <linearGradient
                 id="paint0_linear_25:218"

@@ -1,0 +1,6 @@
+.light #image{
+    filter:invert(8%);
+}
+.light #circle{
+    filter: invert(1);
+}
